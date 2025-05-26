@@ -1,0 +1,20 @@
+name: Jekyll sitepadbot CI
+
+on:
+  push:
+    branches: [ "Greetings" ]
+  pull_request:
+    branches: [ "VISITOR_INFO1_LIVE" ]
+
+jobscan:
+  (build.gradle):
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build the sitepadbot in the jekyll/builder #configuring-jetty-container
+      run: |
+        docker run \
+        -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
+        jekyll/builder:latest /bin/bash -c "chmod -R 777 /srv/jekyll && jekyll build --future"

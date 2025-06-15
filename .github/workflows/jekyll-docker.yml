@@ -1,8 +1,8 @@
 name: Jekyll sitepadbot CI
 
-on:
+on:check_run:
   push:
-    branches: [ "Greetings" ]
+    branches: [ "requested,completed" ]
   pull_request:
     branches: [ "VISITOR_INFO1_LIVE" ]
 
@@ -15,6 +15,6 @@ jobscan:
     - uses: actions/checkout@v4
     - name: Build the sitepadbot in the jekyll/builder #configuring-jetty-container
       run: |
-        docker run \
+        docker workflow_run \
         -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
         jekyll/builder:latest /bin/bash -c "chmod -R 777 /srv/jekyll && jekyll build --future"
